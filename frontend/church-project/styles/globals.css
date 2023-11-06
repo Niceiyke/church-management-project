@@ -4,42 +4,54 @@
 
 @layer utilities {
   @layer responsive {
+
     /* Hide scrollbar for Chrome, Safari and Opera */
     .no-scrollbar::-webkit-scrollbar {
-        display: none;
+      display: none;
     }
 
     /* Hide scrollbar for IE, Edge and Firefox */
     .no-scrollbar {
-        -ms-overflow-style: none;  /* IE and Edge */
-        scrollbar-width: none;  /* Firefox */
+      -ms-overflow-style: none;
+      /* IE and Edge */
+      scrollbar-width: none;
+      /* Firefox */
     }
   }
 }
 
-body{
-  @apply  no-scrollbar
+body {
+  @apply no-scrollbar
 }
 
-main{
+main {
   @apply bg-gray-300 p-4 h-screen
 }
 
-nav{
+nav {
   @apply p-4 flex gap-4 justify-between items-center border-b-4 rounded-md sticky top-0
 }
 
-h1{
+h1 {
   @apply font-black text-4xl
 }
-h2{
+
+h2 {
   @apply font-extrabold text-3xl
 }
 
-h3{
+h3 {
   @apply font-bold text-2xl
 }
 
-p{
+p {
   @apply font-medium text-lg
+}
+
+input {
+  @apply w-full px-4 py-2 border rounded
+}
+
+label {
+  @apply block font-medium
 }
