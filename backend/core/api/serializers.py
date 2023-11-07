@@ -1,5 +1,7 @@
 from rest_framework import serializers
 from accounts import models
+from management.models import Homecell,Unit,Rank
+from members.models import Members
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -17,11 +19,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
             "id",
             "user",
             "bio",
-            "gender",
-            "homecell",
-            "unit",
-            "leadership",
-            "rank",
             "profile_picture",
         ]
         read_only_fields = ["user"]
@@ -29,17 +26,23 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
 class HomecellSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Homecell
+        model = Homecell
         fields = "__all__"
 
 
 class UnitSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Unit
+        model = Unit
         fields = "__all__"
 
 
 class RankSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Rank
+        model = Rank
         fields = "__all__"
+
+class MembersSerializers(serializers.ModelSerializer):
+    class Meta:
+        model =Members
+        fields =['id',"first_name", "last_name", "email", "phone_number", "address","bio",
+            "profile_picture","gender","homecell",'unit','rank','leadership']

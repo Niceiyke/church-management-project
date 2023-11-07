@@ -8,8 +8,6 @@ from django.db import models
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
-        if password is None:
-            password = "winners"
         if not email:
             raise ValueError("The Email field must be set")
         email = self.normalize_email(email)
@@ -46,69 +44,16 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         return f"{self.first_name}  {self.last_name}"
 
 
-GENDER_CHOICES = (
-    ("Male", "Male"),
-    ("Female", "Female"),
-)
-
-
-class Homecell(models.Model):
-    name = models.CharField(max_length=50, null=True, blank=True)
-    address = models.CharField(max_length=150, null=True, blank=True)
-    members = models.ManyToManyField(CustomUser, related_name="cell_members")
-    cell_leader = models.ForeignKey(
-        CustomUser, on_delete=models.SET_NULL, null=True, blank=True
-    )
-
-    def __str__(self):
-        return self.name
-
-
-class Unit(models.Model):
-    name = models.CharField(max_length=50)
-    members = models.ManyToManyField(
-        CustomUser, related_name="unit_members", null=True, blank=True
-    )
-    unit_leader = models.ForeignKey(
-        CustomUser, on_delete=models.SET_NULL, null=True, blank=True
-    )
-
-    def __str__(self):
-        return self.name
-
-
-class Rank(models.Model):
-    name = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.name
-
 
 class UserProfile(models.Model):
     user = models.OneToOneField(
         CustomUser, on_delete=models.CASCADE, related_name="user"
     )
     bio = models.TextField(blank=True)
-    gender = models.CharField(
-        max_length=6, choices=GENDER_CHOICES, blank=True, null=True
-    )
-    homecell = models.ForeignKey(
-        Homecell, on_delete=models.CASCADE, blank=True, null=True
-    )
-    unit = models.ManyToManyField(
-        Unit,
-        blank=True,
-    )
-    leadership = models.BooleanField(default=False)
-    rank = models.ManyToManyField(
-        Rank,
-        related_name="member_rank",
-        blank=True,
-    )
     profile_picture = models.ImageField(
         upload_to="profile_pics/", blank=True, null=True
     )
-    # Add any other fields you need for the user's profile
 
     def __str__(self):
         return f"{self.user.first_name} {self.user.last_name}"
+

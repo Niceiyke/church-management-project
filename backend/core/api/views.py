@@ -1,6 +1,7 @@
 from rest_framework import generics
 from accounts.models import UserProfile, CustomUser
-from .serializers import UserProfileSerializer, UserSerializer
+from members.models import Members
+from .serializers import UserProfileSerializer, UserSerializer,MembersSerializers
 
 
 class UserProfileList(generics.ListAPIView):
@@ -16,3 +17,13 @@ class UserProfileDetail(generics.RetrieveUpdateDestroyAPIView):
 class RegisterUser(generics.CreateAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
+
+class ListCreateMembers(generics.ListCreateAPIView):
+    queryset =Members.objects.all()
+    serializer_class =MembersSerializers
+
+class MembersDetail(generics.RetrieveUpdateDestroyAPIView):
+    queryset =Members.objects.all()
+    serializer_class =MembersSerializers
+
+
