@@ -16,7 +16,9 @@ function Navbar() {
       <div className=''>
         <Link href='/' className='p-2 text-lg font-bold hover:bg-gray-700 hover:text-gray-50 hover:rounded-md'>Home</Link>
         <Link href='/dashboard' className='p-2 text-lg font-bold hover:bg-gray-700 hover:text-gray-50 hover:rounded-md'>Dashboard</Link>
-        <Link href='/register' className='p-2 text-lg font-bold hover:bg-gray-700 hover:text-gray-50 hover:rounded-md'>Register</Link>
+        <Link href='/members' className='p-2 text-lg font-bold hover:bg-gray-700 hover:text-gray-50 hover:rounded-md'>Members</Link>
+        <Link href='/members/register' className='p-2 text-lg font-bold hover:bg-gray-700 hover:text-gray-50 hover:rounded-md'>Add New Member</Link>
+        <Link href='/register' className='p-2 text-lg font-bold hover:bg-gray-700 hover:text-gray-50 hover:rounded-md'>Register staff</Link>
       </div>
     </nav>
   )

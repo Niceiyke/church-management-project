@@ -37,4 +37,4 @@ class Members(models.Model):
     )
 
     def __str__(self):
-        return f"{self.user.first_name} {self.user.last_name}"
+        return f"{self.first_name} {self.last_name}"
