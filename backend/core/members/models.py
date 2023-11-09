@@ -15,6 +15,7 @@ class Members(models.Model):
     phone_number = models.CharField(max_length=11, blank=True, null=True, unique=True)
     address = models.CharField(max_length=100, blank=True, null=True)
     bio = models.TextField(blank=True)
+    baptized=models.BooleanField(default=False)
     gender = models.CharField(
         max_length=6, choices=GENDER_CHOICES, blank=True, null=True
     )

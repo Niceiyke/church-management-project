@@ -1,5 +1,6 @@
-import Link from 'next/link'
+
 import React from 'react'
+import MoreButton from './MoreButton'
 
 const FetchMembers = async () => {
 
@@ -40,13 +41,16 @@ const FetchMembers = async () => {
               <th scope="col" className="px-6 py-3">
                 Unit
               </th>
+              <th scope="col" className="px-6 py-3">
+                Detail
+              </th>
             </tr>
           </thead>
           <tbody>
             {
               members.map(member => 
-              <Link href={`/members/${member.id}`} key={member.id}>
-              <tr  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                
+              <tr  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"  key={member.id} >
                 <td scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                   {member.first_name}
                 </td>
@@ -71,8 +75,13 @@ const FetchMembers = async () => {
                 <td className="px-6 py-4">
                   {member.unit}
                 </td>
+                <td className="px-6 py-4">
+                  <MoreButton page='members' id={member.id} buttonText='View'/>
+                </td>
+                
               </tr>
-              </Link>)
+
+              )
             }
 
           </tbody>
