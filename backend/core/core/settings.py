@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'accounts',
     'members',
     'management',
+    'outreach',
 
     #Third-party apps
     'rest_framework',

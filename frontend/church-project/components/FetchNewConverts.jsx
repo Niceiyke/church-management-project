@@ -2,9 +2,9 @@
 import React from 'react'
 import MoreButton from './MoreButton'
 
-const FetchMembers = async () => {
+const FetchNewConverts = async () => {
 
-    const res =await fetch("http://127.0.0.1:8000/api/members/",{
+    const res =await fetch("http://127.0.0.1:8000/api/new-converts/",{
         cache:'no-cache'
     })
 
@@ -12,7 +12,7 @@ const FetchMembers = async () => {
 
   return (
     <div className='w-full p-4'>
-        <h2 className='text-center'> Members</h2>
+        <h1> New Converts</h1>
         <div className="relative overflow-x-auto">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -24,19 +24,16 @@ const FetchMembers = async () => {
                 Last Name
               </th>
               <th scope="col" className="px-6 py-3">
-                Gender
-              </th>
-              <th scope="col" className="px-6 py-3">
                 Phone Number
               </th>
               <th scope="col" className="px-6 py-3">
                 Email
               </th>
               <th scope="col" className="px-6 py-3">
-                Home cell
+                Address
               </th>
               <th scope="col" className="px-6 py-3">
-                Unit
+                Mentor
               </th>
               <th scope="col" className="px-6 py-3">
                 Detail
@@ -54,9 +51,7 @@ const FetchMembers = async () => {
                 <td className="px-6 py-4">
                   {member.last_name}
                 </td>
-                <td className="px-6 py-4">
-                  {member.gender}
-                </td>
+
                 <td className="px-6 py-4">
                   {member.phone_number}
                 </td>
@@ -64,13 +59,14 @@ const FetchMembers = async () => {
                   {member.email}
                 </td>
                 <td className="px-6 py-4">
-                  {member.homecell_name}
+                  {member.address}
                 </td>
                 <td className="px-6 py-4">
-                  {member.unit_names.map(unit=><li key={unit} className=''>{unit}</li>)}
+                  {member.mentor_name}
                 </td>
+
                 <td className="px-6 py-4">
-                  <MoreButton page='members' id={member.id} buttonText='View'/>
+                  <MoreButton page='new-converts' id={member.id} buttonText='View'/>
                 </td>
                 
               </tr>
@@ -85,4 +81,4 @@ const FetchMembers = async () => {
   )
 }
 
-export default FetchMembers
+export default FetchNewConverts

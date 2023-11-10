@@ -37,5 +37,8 @@ class Members(models.Model):
         upload_to="profile_pics/", blank=True, null=True
     )
 
+    date_created =models.DateField(auto_now_add=True)
+    date_updated =models.DateField(auto_now=True)
+
     def __str__(self):
         return f"{self.first_name} {self.last_name}"

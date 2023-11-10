@@ -1,9 +1,14 @@
 "use client"
-import React, { useState } from 'react';
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 
-function MembersRegistrationForm() {
+
+
+
+
+function NewConvertsForm() {
+
     const route =useRouter()
 
     const [formData, setFormData] = useState({
@@ -12,9 +17,8 @@ function MembersRegistrationForm() {
         email: '',
         phone: '',
         address: '',
-        gender: '',
-        homecell: '',
-        unit: [],
+        Prayer_request: '',
+
     });
 
     const handleChange = (e) => {
@@ -37,12 +41,11 @@ function MembersRegistrationForm() {
             phone_number: formData.phone,
             address: formData.address,
             email: formData.email,
-            gender: formData.gender,
-            homecell: formData.homecell,
-            unit: formData.unit,
+            Prayer_request: formData.Prayer_request,
+
         };
 
-        const res = await fetch("http://127.0.0.1:8000/api/members/", {
+        const res = await fetch("http://127.0.0.1:8000/api/new-converts/", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -51,12 +54,10 @@ function MembersRegistrationForm() {
         })
 
         if (res.status === 201) {
-
-            route.push('/members')
+            
+            route.push('/new-converts')
 
         }
-
-
 
 
 
@@ -65,7 +66,7 @@ function MembersRegistrationForm() {
 
     return (
         <div className="w-1/2 mx-auto mt-2">
-            <h2 className="text-2xl font-semibold mb-2 text-center">Member Registration Form</h2>
+            <h2 className="text-2xl font-semibold mb-2 text-center">New Convert Form</h2>
             <form onSubmit={handleSubmit}>
                 <div className="mb-2">
                     <label htmlFor="firstname" >First Name:</label>
@@ -118,36 +119,7 @@ function MembersRegistrationForm() {
                     />
                 </div>
                 <div className="mb-2">
-                    <label htmlFor="gender" className="block font-medium">Gender:</label>
-                    <select
-                        id="gender"
-                        name="gender"
-                        value={formData.gender}
-                        onChange={handleChange}
-                        className="w-full px-4 py-2 border rounded"
-                    >
-                        <option value="" disabled>Select Gender</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                    </select>
-                </div>
-
-                <div className="mb-2">
-                    <label htmlFor="homecell" className="block font-medium">homecell:</label>
-                    <select
-                        id="homecell"
-                        name="homecell"
-                        value={formData.homecell}
-                        onChange={handleChange}
-                        className="w-full px-4 py-2 border rounded"
-                    >
-                        <option value="" disabled>Select a Homecell</option>
-                        <option value="1">Love Homecell</option>
-                        <option value="2">Ark Homecell</option>
-                    </select>
-                </div>
-                <div className="mb-2">
-                    <label htmlFor="unit" >Unit:</label>
+                    <label htmlFor="unit" >Prayer Request:</label>
                     <input
                         type="text"
                         id="unit"
@@ -163,4 +135,4 @@ function MembersRegistrationForm() {
     );
 }
 
-export default MembersRegistrationForm;
+export default NewConvertsForm;

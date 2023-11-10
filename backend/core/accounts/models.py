@@ -29,6 +29,8 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(max_length=30, blank=True)
     phone_number = models.CharField(max_length=11, blank=True, null=True, unique=True)
     address = models.CharField(max_length=100, blank=True, null=True)
+    date_created =models.DateField(auto_now_add=True)
+    date_updated =models.DateField(auto_now=True)
     userprofile = models.OneToOneField(
         "UserProfile", on_delete=models.CASCADE, null=True, blank=True
     )

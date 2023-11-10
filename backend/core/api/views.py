@@ -1,7 +1,8 @@
 from rest_framework import generics
 from accounts.models import UserProfile, CustomUser
 from members.models import Members
-from .serializers import UserProfileSerializer, UserSerializer,MembersSerializers
+from outreach.models import NewConvert
+from .serializers import UserProfileSerializer, UserSerializer,MembersSerializers, NewConvertSerializers
 
 
 class UserProfileList(generics.ListAPIView):
@@ -27,3 +28,6 @@ class MembersDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class =MembersSerializers
 
 
+class ListCreateNewConverts(generics.ListCreateAPIView):
+    queryset= NewConvert.objects.all()
+    serializer_class =NewConvertSerializers
