@@ -10,26 +10,26 @@ export const metadata = {
   description: 'Home of Signs and Wonders',
 }
 
-const myFont =localFont ({
+const myFont = localFont({
   src: '../static/fonts/Oswald.ttf',
-  display:'swap'
+  display: 'swap'
 })
 
-const CustomFont =localFont({
+const CustomFont = localFont({
   src: '../static/fonts/Nunito.ttf',
-  subsets:['latin'],
-  display:'swap'
+  subsets: ['latin'],
+  display: 'swap'
 })
 
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      
-      <body className={CustomFont.className} >
-      <Navbar/>
+
+      <body className={myFont.className} >
+        <Navbar />
         {children}
-        </body>
+      </body>
     </html>
   )
 }

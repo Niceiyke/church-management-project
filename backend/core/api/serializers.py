@@ -1,8 +1,16 @@
 from rest_framework import serializers
 from accounts import models
-from management.models import Homecell,Unit,Rank
+from management.models import (
+    Homecell,
+    Unit,
+    Rank,
+    Attendance,
+    Service,
+    ServiceType,
+    ServiceTime,
+)
 from members.models import Members
-from outreach.models import NewConvert,Mentors
+from outreach.models import NewConvert, Mentors
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -42,45 +50,122 @@ class RankSerializer(serializers.ModelSerializer):
         model = Rank
         fields = "__all__"
 
+
 class MembersSerializers(serializers.ModelSerializer):
     homecell_name = serializers.SerializerMethodField()
     unit_names = serializers.SerializerMethodField()
+
     class Meta:
-        model =Members
-        fields =['id',"first_name", "last_name", "email", "phone_number", "address","bio",
-            "profile_picture","gender","homecell","homecell_name",'unit',"unit_names",'rank','leadership']
-        
+        model = Members
+        fields = [
+            "id",
+            "first_name",
+            "last_name",
+            "email",
+            "phone_number",
+            "address",
+            "bio",
+            "profile_picture",
+            "gender",
+            "homecell",
+            "homecell_name",
+            "unit",
+            "unit_names",
+            "rank",
+            "leadership",
+        ]
+
     def get_homecell_name(self, obj):
- 
         if obj.homecell:
-            return f'{obj.homecell.name} '
+            return f"{obj.homecell.name} "
         return None
-    
+
     def get_unit_names(self, obj):
- 
         if obj.unit:
             unit_names = [unit.name for unit in obj.unit.all()]
 
             return unit_names
         return None
-        
+
+
 class NewConvertSerializers(serializers.ModelSerializer):
     mentor_name = serializers.SerializerMethodField()
+
     class Meta:
         model = NewConvert
-        fields='__all__'
+        fields = "__all__"
 
     def get_mentor_name(self, obj):
- 
         if obj.mentor:
-            return f'{obj.mentor.mentor.first_name} {obj.mentor.mentor.last_name}'
+            return f"{obj.mentor.mentor.first_name} {obj.mentor.mentor.last_name}"
         return None
+
 
 class MentorSerializers(serializers.ModelSerializer):
     class Meta:
         model = Mentors
-        fields='__all__'
+        fields = "__all__"
 
-    
-    
 
+class ServiceTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ServiceType
+        fields = "__all__"
+
+
+class ServiceTimeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ServiceTime
+        fields = "__all__"
+
+
+class AttendanceSerializer(serializers.ModelSerializer):
+    service_time = ServiceTimeSerializer()
+
+    class Meta:
+        model = Attendance
+        fields = "__all__"
+
+
+class ServiceSerializer(serializers.ModelSerializer):
+    attendance = AttendanceSerializer(many=True)
+    service_type = ServiceTypeSerializer()
+    total_attendance = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Service
+        fields = [
+            "id",
+            "service_type",
+            "service_date",
+            "attendance",
+            "total_attendance",
+        ]
+
+    def get_total_attendance(self, obj):
+        # Calculate the total attendance for the service
+        total_males = sum(attendance.males or 0 for attendance in obj.attendance.all())
+        total_females = sum(
+            attendance.females or 0 for attendance in obj.attendance.all()
+        )
+        total_children = sum(
+            attendance.children or 0 for attendance in obj.attendance.all()
+        )
+        total_new_converts = sum(
+            attendance.new_converts or 0 for attendance in obj.attendance.all()
+        )
+        total_first_timers = sum(
+            attendance.first_timers or 0 for attendance in obj.attendance.all()
+        )
+        total_vehicles = sum(
+            attendance.vehicles or 0 for attendance in obj.attendance.all()
+        )
+
+        return {
+            "males": total_males,
+            "females": total_females,
+            "children": total_children,
+            "first_timers": total_first_timers,
+            "new_converts": total_new_converts,
+            "vehicles": total_vehicles,
+        }
