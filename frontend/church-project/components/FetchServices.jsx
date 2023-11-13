@@ -46,7 +46,7 @@ async function FetchServices() {
                                     </td>
 
                                     <td className="px-6 py-4">
-                                        <MoreButton page='services' id={service.id} buttonText='View' />
+                                        <MoreButton page='services' id={service.id}  buttonText='View' />
                                     </td>
 
                                 </tr>

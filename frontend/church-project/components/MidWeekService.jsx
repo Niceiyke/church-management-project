@@ -1,6 +1,6 @@
 
 
-async function FirstService({ id }) {
+async function MidWeekService({ id }) {
 
     const res = await fetch(`http://127.0.0.1:8000/api/services/${id}/`,{
         cache :'no-cache'
@@ -12,10 +12,10 @@ async function FirstService({ id }) {
 
     return (
         <div className="ml-4 flex flex-col justify-center border-2 w-1/3 p-4">
-            <h2 className="text-center">First Service</h2>
+            <h2 className="text-center">Midweek Service</h2>
             <div><p>{service.service_type.name}</p> <p>{service.service_date}</p></div>
             
-            {service.attendance.filter(entry => entry.service_time.name === "First Service").map(entry =>
+            {service.attendance.filter(entry => entry.service_time.name === "Midweek Service").map(entry =>
                 <ul key={entry.id}>
                     <li>Message:{entry.message}</li>
                     <li className="mb-4">Minister:{entry.minister}</li>
@@ -34,4 +34,4 @@ async function FirstService({ id }) {
     )
 }
 
-export default FirstService
+export default MidWeekService

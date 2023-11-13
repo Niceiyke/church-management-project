@@ -63,6 +63,8 @@ class CountingUnit(models.Model):
 
 
 class Attendance(models.Model):
+    minister =models.CharField(max_length=100,blank=True)
+    message = models.CharField(max_length=200,blank=True)
     service_time = models.ForeignKey(ServiceTime, on_delete=models.CASCADE)
     counting_unit = models.ForeignKey(CountingUnit, on_delete=models.CASCADE)
     males = models.IntegerField(null=True, blank=True)
@@ -73,13 +75,37 @@ class Attendance(models.Model):
     new_converts = models.IntegerField(default=0)
     service_date = models.DateField(auto_now_add=True)
 
+
+
     def __str__(self) -> str:
         return f"{self.service_date} {self.service_time} {self.counting_unit.unit.name} unit"
 
+    def get_total_attendance(self):
+        total_males = self.males or 0
+        total_females = self.females or 0
+        total_children = self.children or 0
+        return total_males + total_females + total_children
+
+
+class Income(models.Model):
+    offering =models.IntegerField(null=True, blank=True)
+    tithe =models.IntegerField(null=True, blank=True)
+    thanksgiving =models.IntegerField(null=True, blank=True)
+    shilo_sacrifice =models.IntegerField(null=True, blank=True)
+    projects =models.IntegerField(null=True, blank=True)
+    service_type = models.ForeignKey(ServiceType, on_delete=models.SET_NULL, null=True)
+    service_time = models.ForeignKey(ServiceTime, on_delete=models.CASCADE)
+    service_date = models.DateField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return f"{self.service_date} {self.service_type.name}"
+
+    
 
 class Service(models.Model):
     service_type = models.ForeignKey(ServiceType, on_delete=models.SET_NULL, null=True)
     attendance = models.ManyToManyField(Attendance)
+    income = models.ManyToManyField(Income,blank=True)
 
     service_date = models.DateField(auto_now_add=True)
 

@@ -8,6 +8,7 @@ from .views import (
     ListCreateNewConverts,
     ListServices,
     ServicesDetail,
+    TotalAttendanceView,
 )
 
 urlpatterns = [
@@ -19,4 +20,5 @@ urlpatterns = [
     path("new-converts/", ListCreateNewConverts.as_view()),
     path("services/", ListServices.as_view()),
     path("services/<int:pk>/", ServicesDetail.as_view()),
+    path("total-attendance",TotalAttendanceView.as_view())
 ]

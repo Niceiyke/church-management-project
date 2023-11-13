@@ -8,6 +8,7 @@ from management.models import (
     Service,
     ServiceType,
     ServiceTime,
+    Income,
 )
 from members.models import Members
 from outreach.models import NewConvert, Mentors
@@ -126,9 +127,16 @@ class AttendanceSerializer(serializers.ModelSerializer):
         model = Attendance
         fields = "__all__"
 
+class IncomeSerializer(serializers.ModelSerializer):
+    service_time = ServiceTimeSerializer()
+
+    class Meta:
+        model = Income
+        fields = "__all__"
 
 class ServiceSerializer(serializers.ModelSerializer):
     attendance = AttendanceSerializer(many=True)
+    income = IncomeSerializer(many=True)
     service_type = ServiceTypeSerializer()
     total_attendance = serializers.SerializerMethodField()
 
@@ -140,6 +148,7 @@ class ServiceSerializer(serializers.ModelSerializer):
             "service_date",
             "attendance",
             "total_attendance",
+            "income",
         ]
 
     def get_total_attendance(self, obj):
@@ -169,3 +178,10 @@ class ServiceSerializer(serializers.ModelSerializer):
             "new_converts": total_new_converts,
             "vehicles": total_vehicles,
         }
+
+
+class TotalAttendanceSerializer(serializers.Serializer):
+    total_attendance = serializers.IntegerField()
+    total_new_converts = serializers.IntegerField()
+    total_first_timers = serializers.IntegerField()
+    
