@@ -127,6 +127,7 @@ class AttendanceSerializer(serializers.ModelSerializer):
         model = Attendance
         fields = "__all__"
 
+
 class IncomeSerializer(serializers.ModelSerializer):
     service_time = ServiceTimeSerializer()
 
@@ -134,11 +135,13 @@ class IncomeSerializer(serializers.ModelSerializer):
         model = Income
         fields = "__all__"
 
+
 class ServiceSerializer(serializers.ModelSerializer):
     attendance = AttendanceSerializer(many=True)
     income = IncomeSerializer(many=True)
     service_type = ServiceTypeSerializer()
     total_attendance = serializers.SerializerMethodField()
+    total_income = serializers.SerializerMethodField()
 
     class Meta:
         model = Service
@@ -149,6 +152,7 @@ class ServiceSerializer(serializers.ModelSerializer):
             "attendance",
             "total_attendance",
             "income",
+            "total_income",
         ]
 
     def get_total_attendance(self, obj):
@@ -179,9 +183,28 @@ class ServiceSerializer(serializers.ModelSerializer):
             "vehicles": total_vehicles,
         }
 
+    def get_total_income(self, obj):
+        # Calculate the total income for the service
+        total_offering = sum(income.offering or 0 for income in obj.income.all())
+        total_tithe = sum(income.tithe or 0 for income in obj.income.all())
+        total_thanksgiving = sum(
+            income.thanksgiving or 0 for income in obj.income.all()
+        )
+        total_shiloh_sacrifice = sum(
+            income.shiloh_sacrifice or 0 for income in obj.income.all()
+        )
+        total_projects = sum(income.projects or 0 for income in obj.income.all())
+
+        return {
+            "offering": total_offering,
+            "tithe": total_tithe,
+            "thanksgiving": total_thanksgiving,
+            "shiloh_sacrifice": total_shiloh_sacrifice,
+            "projects": total_projects,
+        }
+
 
 class TotalAttendanceSerializer(serializers.Serializer):
     total_attendance = serializers.IntegerField()
     total_new_converts = serializers.IntegerField()
     total_first_timers = serializers.IntegerField()
-    

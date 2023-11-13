@@ -3,8 +3,9 @@
 async function ThirdService({ id }) {
 
 
-    const res = await fetch(`http://127.0.0.1:8000/api/services/${id}/`,{
-        cache :'no-cache'})
+    const res = await fetch(`http://127.0.0.1:8000/api/services/${id}/`, {
+        cache: 'no-cache'
+    })
 
     const service = await res.json()
 
@@ -14,7 +15,7 @@ async function ThirdService({ id }) {
         <div className="flex flex-col justify-center mr-4 border-2 w-1/3 p-4">
             <h2 className="text-center">Third Service</h2>
             <div className=""><p>{service.service_type.name}</p> <p>{service.service_date}</p></div>
-         
+
             {service.attendance.filter(entry => entry.service_time.name === "Third Service").map(entry =>
                 <ul key={entry.id} className="">
                     <li>Message:{entry.message}</li>
@@ -26,8 +27,19 @@ async function ThirdService({ id }) {
                     <li className="mb-4">Total: {entry.males + entry.females + entry.children}</li>
                     <li>First Timers:{entry.first_timers}</li>
                     <li>New Converts:{entry.new_converts}</li>
-                    <li>Vehicles:{entry.vehicles}</li>
+                    <li className="mb-4">Vehicles:{entry.vehicles}</li>
 
+                </ul>)}
+
+            <h3>Income:</h3>
+
+            {service.income.filter(entry => entry.service_time.name === "Third Service").map(entry =>
+                <ul key={entry.id}>
+                    <li className="mt-4 mb-4">Offering:{entry.offering}</li>
+                    <li className="mb-4">Tithe:{entry.tithe}</li>
+                    <li className="mb-4">Thanksgiving:{entry.thanksgiving}</li>
+                    <li className="mb-4">Projects:{entry.projects}</li>
+                    <li className="mb-4">Shiloh Sacrifice:{entry.shiloh_sacrifice}</li>
                 </ul>)}
 
         </div>

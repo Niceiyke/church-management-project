@@ -26,7 +26,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
 
-      <body className={myFont.className} >
+      <body className={CustomFont.className} >
         <Navbar />
         {children}
       </body>

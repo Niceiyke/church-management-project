@@ -25,6 +25,9 @@ async function FetchServices() {
                                 Attendance
                             </th>
                             <th scope="col" className="px-6 py-3">
+                                Income
+                            </th>
+                            <th scope="col" className="px-6 py-3">
                                 Detail
                             </th>
                         </tr>
@@ -44,9 +47,12 @@ async function FetchServices() {
                                     <td className="px-6 py-4">
                                         {service.total_attendance.males + service.total_attendance.females + service.total_attendance.children}
                                     </td>
+                                    <td className="px-6 py-4">
+                                        NGN {service.total_income.offering + service.total_income.tithe + service.total_income.thanksgiving + service.total_income.projects}
+                                    </td>
 
                                     <td className="px-6 py-4">
-                                        <MoreButton page='services' id={service.id}  buttonText='View' />
+                                        <MoreButton page='services' id={service.id} buttonText='View' />
                                     </td>
 
                                 </tr>
