@@ -121,7 +121,7 @@ class ServiceTimeSerializer(serializers.ModelSerializer):
 
 
 class AttendanceSerializer(serializers.ModelSerializer):
-    service_time = ServiceTimeSerializer()
+    
 
     class Meta:
         model = Attendance
@@ -208,3 +208,12 @@ class TotalAttendanceSerializer(serializers.Serializer):
     total_attendance = serializers.IntegerField()
     total_new_converts = serializers.IntegerField()
     total_first_timers = serializers.IntegerField()
+
+
+class TotalIncomeSerializer(serializers.Serializer):
+    total_income = serializers.IntegerField()
+    total_offering = serializers.IntegerField()
+    total_tithe = serializers.IntegerField()
+    total_thanksgiving = serializers.IntegerField()
+    total_shiloh_sacrifice = serializers.IntegerField()
+    total_projects = serializers.IntegerField()

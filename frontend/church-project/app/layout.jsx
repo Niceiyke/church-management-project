@@ -1,3 +1,4 @@
+
 import Navbar from '@/components/Navbar'
 
 import '@/styles/globals.css'
@@ -8,6 +9,7 @@ import localFont from 'next/font/local'
 export const metadata = {
   title: 'Winners Chapel 9th Mile',
   description: 'Home of Signs and Wonders',
+  
 }
 
 const myFont = localFont({
@@ -25,7 +27,6 @@ const CustomFont = localFont({
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-
       <body className={CustomFont.className} >
         <Navbar />
         {children}

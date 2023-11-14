@@ -18,7 +18,7 @@ const ServiceDetail = async ({ params }) => {
    <>
      {
      service.service_type.name=="Sunday Service"?
-     <div className='flex gap-4 justify-between'>
+     <div className='md:flex md:gap-4 md:justify-between '>
       <FirstService id={id} />
       <SecondService id={id} />
       <ThirdService id={id} />

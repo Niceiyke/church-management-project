@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from accounts.models import UserProfile, CustomUser
 from members.models import Members
 from outreach.models import NewConvert
-from management.models import Service,Attendance
+from management.models import Service,Attendance,Income
 from .serializers import (
     UserProfileSerializer,
     UserSerializer,
@@ -12,6 +12,8 @@ from .serializers import (
     NewConvertSerializers,
     ServiceSerializer,
     TotalAttendanceSerializer,
+    TotalIncomeSerializer,
+    AttendanceSerializer,
 )
 
 
@@ -49,6 +51,9 @@ class ListServices(generics.ListAPIView):
     queryset = Service.objects.all()
     serializer_class = ServiceSerializer
 
+class CreateAttendanceView(generics.CreateAPIView):
+    queryset =Attendance.objects.all()
+    serializer_class=AttendanceSerializer
 
 class ServicesDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Service.objects.all()
@@ -79,5 +84,38 @@ class TotalAttendanceView(APIView):
             
         }
         serializer = TotalAttendanceSerializer(data)
+        return Response(serializer.data)
+    
+
+class TotalIncomeView(APIView):
+    def get(self, request):
+        all_income = Income.objects.all()
+        total_offering = 0
+        total_tithe = 0
+        total_thanksgiving = 0
+        total_projects = 0
+        total_shiloh_sacrifice = 0
+
+        for income in all_income:
+            total_offering += income.offering or 0
+            total_tithe += income.tithe or 0
+            total_thanksgiving += income.thanksgiving or 0
+            total_projects += income.projects
+            total_shiloh_sacrifice += income.shiloh_sacrifice
+
+        total_income = total_offering + total_tithe + total_thanksgiving + total_projects
+
+        data = {
+
+            'total_income': total_income,
+            "total_offering":total_offering,
+            'total_tithe':total_tithe,
+            'total_thanksgiving':total_thanksgiving,
+            'total_projects':total_projects,
+            'total_shiloh_sacrifice':total_shiloh_sacrifice
+
+            
+        }
+        serializer = TotalIncomeSerializer(data)
         return Response(serializer.data)
     

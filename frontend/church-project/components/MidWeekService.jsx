@@ -1,3 +1,4 @@
+import CurrencyFormatter from "@/utils/CurrencyFormatter"
 
 
 async function MidWeekService({ id }) {
@@ -11,7 +12,7 @@ async function MidWeekService({ id }) {
 
 
     return (
-        <div className="ml-4 flex flex-col justify-center border-2 w-1/3 p-4">
+        <div className="border-2 px-4">
             <h2 className="text-center">Midweek Service</h2>
             <div><p>{service.service_type.name}</p> <p>{service.service_date}</p></div>
 
@@ -19,7 +20,7 @@ async function MidWeekService({ id }) {
                 <ul key={entry.id}>
                     <li>Message:{entry.message}</li>
                     <li className="mb-4">Minister:{entry.minister}</li>
-                    <h3>Attendance </h3>
+                    <h2>Attendance </h2>
                     <li>Males:{entry.males}</li>
                     <li>Females:{entry.females}</li>
                     <li>Children:{entry.children}</li>
@@ -30,15 +31,16 @@ async function MidWeekService({ id }) {
 
                 </ul>)}
 
-            <h3 classname="">Income:</h3>
+            <h2 classname="">Income:</h2>
 
             {service.income.filter(entry => entry.service_time.name === "Midweek Service").map(entry =>
                 <ul key={entry.id}>
-                    <li className="mt-4 mb-4">Offering:{entry.offering}</li>
-                    <li className="mb-4">Tithe:{entry.tithe}</li>
-                    <li className="mb-4">Thanksgiving:{entry.thanksgiving}</li>
-                    <li className="mb-4">Projects:{entry.projects}</li>
-                    <li className="mb-4">Shiloh Sacrifice:{entry.shiloh_sacrifice}</li>
+                    <li className="mt-4 mb-4">Offering: <h3><CurrencyFormatter amount={entry.offering}/></h3></li>
+                    <li className="mb-4">Tithe: <h3> <CurrencyFormatter amount={entry.tithe}/></h3> </li>
+                    <li className="mb-4">Thanksgiving:<h3> <CurrencyFormatter amount={entry.thanksgiving}/></h3>  </li>
+                    <li className="mb-4">Projects:<h3> <CurrencyFormatter amount={entry.projects}/> </h3> </li>
+                    <li className="mb-4">Shiloh Sacrifice:<h3> <CurrencyFormatter amount={entry.shiloh_sacrifice}/></h3> </li>
+                    <li className="mb-4">Total:<h3> <CurrencyFormatter amount={entry.shiloh_sacrifice+entry.projects+entry.thanksgiving+entry.tithe+entry.offering}/></h3> </li>
                 </ul>)}
 
         </div>
