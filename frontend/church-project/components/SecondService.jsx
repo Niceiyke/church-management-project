@@ -16,7 +16,7 @@ async function SecondService({ id }) {
             <h2 className="text-center">Second Service</h2>
             <div><p>{service.service_type.name}</p> <p>{service.service_date}</p></div>
 
-            {service.attendance.filter(entry => entry.service_time.name === "Second service").map(entry =>
+            {service.attendance.filter(entry => entry.services_times === "Second Service").map(entry =>
                 <ul key={entry.id}>
                     <li>Message:{entry.message}</li>
                     <li className="mb-4">Minister:{entry.minister}</li>
@@ -32,9 +32,9 @@ async function SecondService({ id }) {
 
                 </ul>)}
 
-            <h2 classname="">Income:</h2>
+            <h2 className="">Income:</h2>
 
-            {service.income.filter(entry => entry.service_time.name === "Second service").map(entry =>
+            {service.income.filter(entry => entry.services_times === "Second Service").map(entry =>
                 <ul key={entry.id}>
                     <li className="mt-4 mb-4">Offering: <h3><CurrencyFormatter amount={entry.offering}/></h3></li>
                     <li className="mb-4">Tithe: <h3> <CurrencyFormatter amount={entry.tithe}/></h3> </li>

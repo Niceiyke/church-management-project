@@ -120,40 +120,62 @@ class ServiceTimeSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class AttendanceSerializer(serializers.ModelSerializer):
-    
 
+class AttendanceSerializer(serializers.ModelSerializer):
+    services_times =serializers.SerializerMethodField()
     class Meta:
         model = Attendance
         fields = "__all__"
 
+    def get_services_times(self,obj):
+        time= obj.service_time.name
+
+        return time
+
+
+
 
 class IncomeSerializer(serializers.ModelSerializer):
-    service_time = ServiceTimeSerializer()
+    services_times =serializers.SerializerMethodField()
 
     class Meta:
         model = Income
         fields = "__all__"
 
+    def get_services_times(self,obj):
+        time= obj.service_time.name
+
+        return time
+
 
 class ServiceSerializer(serializers.ModelSerializer):
-    attendance = AttendanceSerializer(many=True)
-    income = IncomeSerializer(many=True)
+    service_list = serializers.SerializerMethodField()
     service_type = ServiceTypeSerializer()
     total_attendance = serializers.SerializerMethodField()
     total_income = serializers.SerializerMethodField()
+    attendance=AttendanceSerializer(many=True)
+    income=IncomeSerializer(many=True)
 
     class Meta:
         model = Service
         fields = [
             "id",
+            "service_list",
             "service_type",
             "service_date",
             "attendance",
             "total_attendance",
             "income",
             "total_income",
+            "is_verified",
         ]
+
+    def get_service_list(self,obk):
+        qs =Service.objects.filter(is_verified=False)
+
+        service_list =[{entry.id, f'{entry.service_type} - {entry.service_date}' }for entry in qs]
+
+        return service_list
 
     def get_total_attendance(self, obj):
         # Calculate the total attendance for the service

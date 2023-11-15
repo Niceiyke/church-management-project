@@ -2,6 +2,7 @@ import FirstService from '@/components/FirstService'
 import MidWeekService from '@/components/MidWeekService'
 import SecondService from '@/components/SecondService'
 import ThirdService from '@/components/ThirdService'
+import VerifyServiceButton from '@/components/VerifyServiceButton'
 
 const ServiceDetail = async ({ params }) => {
 
@@ -30,6 +31,7 @@ const ServiceDetail = async ({ params }) => {
     
     }
    
+   {!service.is_verified && <VerifyServiceButton id={id} />}
 
    </>
   )

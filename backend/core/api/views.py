@@ -51,7 +51,7 @@ class ListServices(generics.ListAPIView):
     queryset = Service.objects.all()
     serializer_class = ServiceSerializer
 
-class CreateAttendanceView(generics.CreateAPIView):
+class CreateAttendanceView(generics.ListCreateAPIView):
     queryset =Attendance.objects.all()
     serializer_class=AttendanceSerializer
 

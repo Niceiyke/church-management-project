@@ -4,36 +4,37 @@ import Select from 'react-select';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-const AttendanceForm = () => {
+const AttendanceForm = async () => {
   const [formData, setFormData] = useState({
     minister: '',
     message: '',
     service_time: null,
-    service_type: null,
-    countingUnit: null,
+    counting_unit: null,
     males: 0,
     females: 0,
     children: 0,
     vehicles: 0,
-    firstTimers: 0,
-    newConverts: 0,
+    first_timers: 0,
+    new_converts: 0,
     serviceDate: new Date(),
   });
 
   const service_time = [
 
-    { value: '1', label: 'Sunday Service' },
-    { value: '2', label: 'Midweek Service' },
+    { value: '1', label: 'First Service' },
+    { value: '2', label: 'Second Service' },
+    { value: '3', label: 'Third Service' },
+
+
   ];
 
   const service_types = [
 
-    { value: '1', label: 'First Service' },
-    { value: '2', label: 'Second Service' },
-    { value: '3', label: 'Third Service' },
+    { value: '1', label: 'Sunday Service' },
+    { value: '2', label: 'Midweek Service' },
   ];
 
-  const countingUnits = [
+  const counting_units = [
 
     { value: '1', label: 'Ushering Unit' },
     { value: '2', label: 'Hospitality Unit' },
@@ -42,9 +43,13 @@ const AttendanceForm = () => {
   const handleSelectChange = (name, selectedOption) => {
     setFormData((prevData) => ({
       ...prevData,
-      [name]: selectedOption,
+      [name]: selectedOption && selectedOption.value !== undefined ? selectedOption.value : selectedOption,
     }));
   };
+
+  const res = await fetch('http://127.0.0.1:8000/api/services-list')
+
+  const servicesList = await res.json()
 
   const handleDateChange = (date) => {
     setFormData((prevData) => ({
@@ -64,12 +69,13 @@ const AttendanceForm = () => {
         body: JSON.stringify(formData),
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to submit form data');
+      if (response.status===201) {
+        
+        
+      console.log('Form data submitted successfully');
+      
       }
 
-      console.log('Form data submitted successfully');
-      // Optionally, you can handle the response or redirect the user
     } catch (error) {
       console.error('Error submitting form data:', error.message);
     }
@@ -105,43 +111,36 @@ const AttendanceForm = () => {
 
       <label>
         First Timers:
-        <input type="number" name="firstTimers" value={formData.firstTimers} onChange={(e) => handleSelectChange('firstTimers', e.target.value)} />
+        <input type="number" name="first_timers" value={formData.first_timers} onChange={(e) => handleSelectChange('first_timers', e.target.value)} />
       </label>
 
       <label>
         New Converts:
-        <input type="number" name="newConverts" value={formData.newConverts} onChange={(e) => handleSelectChange('newConverts', e.target.value)} />
+        <input type="number" name="new_converts" value={formData.new_converts} onChange={(e) => handleSelectChange('new_converts', e.target.value)} />
       </label>
 
       <label>
         Vehicles:
         <input type="number" name="vehicles" value={formData.vehicles} onChange={(e) => handleSelectChange('vehicles', e.target.value)} />
       </label>
+      
     
       <label>
-        Service Type:
+        Service Time:
         <Select
           value={formData.service_time}
-          onChange={(selectedOption) => handleSelectChange('service_type', selectedOption)}
+          onChange={(selectedOption) => handleSelectChange('service_time', selectedOption)}
           options={service_time}
         />
       </label>
 
-      <label>
-        Service Time:
-        <Select
-          value={formData.service_type}
-          onChange={(selectedOption) => handleSelectChange('service_time', selectedOption)}
-          options={service_types}
-        />
-      </label>
 
       <label>
         Counting Unit:
         <Select
-          value={formData.countingUnit}
-          onChange={(selectedOption) => handleSelectChange('countingUnit', selectedOption)}
-          options={countingUnits}
+          value={formData.counting_unit}
+          onChange={(selectedOption) => handleSelectChange('counting_unit', selectedOption)}
+          options={counting_units}
         />
       </label>
 
@@ -150,7 +149,6 @@ const AttendanceForm = () => {
         <DatePicker selected={formData.serviceDate} onChange={handleDateChange} />
       </label>
 
-      {/* Add similar input fields for other model fields */}
       
       <button type="submit" className='mt-4 w-full bg-gray-800 text-white rounded-md'>Submit</button>
     </form>

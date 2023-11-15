@@ -17,7 +17,7 @@ async function ThirdService({ id }) {
             <h2 className="text-center">Third Service</h2>
             <div className=""><p>{service.service_type.name}</p> <p>{service.service_date}</p></div>
 
-            {service.attendance.filter(entry => entry.service_time.name === "Third Service").map(entry =>
+            {service.attendance.filter(entry => entry.services_times === "Third Service").map(entry =>
                 <ul key={entry.id} className="">
                     <li>Message:{entry.message}</li>
                     <li className="mb-4">Minister:{entry.minister}</li>
@@ -34,7 +34,7 @@ async function ThirdService({ id }) {
 
             <h2>Income:</h2>
 
-            {service.income.filter(entry => entry.service_time.name === "Third Service").map(entry =>
+            {service.income.filter(entry => entry.services_times=== "Third Service").map(entry =>
                 <ul key={entry.id}>
                     <li className="mt-4 mb-4">Offering: <h3><CurrencyFormatter amount={entry.offering}/></h3></li>
                     <li className="mb-4">Tithe: <h3> <CurrencyFormatter amount={entry.tithe}/></h3> </li>
