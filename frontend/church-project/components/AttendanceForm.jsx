@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import Select from 'react-select';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import ServiceSelector from './ServiceSelector';
+
 
 const AttendanceForm = async () => {
   const [formData, setFormData] = useState({
@@ -40,6 +42,10 @@ const AttendanceForm = async () => {
     { value: '2', label: 'Hospitality Unit' },
   ];
 
+  const res = await fetch('http://127.0.0.1:8000/api/services-list')
+
+  const servicesList = await res.json()
+
   const handleSelectChange = (name, selectedOption) => {
     setFormData((prevData) => ({
       ...prevData,
@@ -47,9 +53,7 @@ const AttendanceForm = async () => {
     }));
   };
 
-  const res = await fetch('http://127.0.0.1:8000/api/services-list')
 
-  const servicesList = await res.json()
 
   const handleDateChange = (date) => {
     setFormData((prevData) => ({
@@ -69,11 +73,11 @@ const AttendanceForm = async () => {
         body: JSON.stringify(formData),
       });
 
-      if (response.status===201) {
-        
-        
-      console.log('Form data submitted successfully');
-      
+      if (response.status === 201) {
+
+
+        console.log('Form data submitted successfully');
+
       }
 
     } catch (error) {
@@ -123,8 +127,8 @@ const AttendanceForm = async () => {
         Vehicles:
         <input type="number" name="vehicles" value={formData.vehicles} onChange={(e) => handleSelectChange('vehicles', e.target.value)} />
       </label>
-      
-    
+
+
       <label>
         Service Time:
         <Select
@@ -149,7 +153,12 @@ const AttendanceForm = async () => {
         <DatePicker selected={formData.serviceDate} onChange={handleDateChange} />
       </label>
 
-      
+      <ServiceSelector
+        selectedService={formData.service_type}  // assuming your service type is stored in `service_type`
+        onSelectService={(selectedService) => handleSelectChange('service_type', selectedService)}
+      />
+
+
       <button type="submit" className='mt-4 w-full bg-gray-800 text-white rounded-md'>Submit</button>
     </form>
   );

@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from accounts.models import UserProfile, CustomUser
 from members.models import Members
 from outreach.models import NewConvert
-from management.models import Service,Attendance,Income
+from management.models import Service, Attendance, Income
 from .serializers import (
     UserProfileSerializer,
     UserSerializer,
@@ -14,6 +14,7 @@ from .serializers import (
     TotalAttendanceSerializer,
     TotalIncomeSerializer,
     AttendanceSerializer,
+    ServicesListSerializer,
 )
 
 
@@ -51,13 +52,16 @@ class ListServices(generics.ListAPIView):
     queryset = Service.objects.all()
     serializer_class = ServiceSerializer
 
+
 class CreateAttendanceView(generics.ListCreateAPIView):
-    queryset =Attendance.objects.all()
-    serializer_class=AttendanceSerializer
+    queryset = Attendance.objects.all()
+    serializer_class = AttendanceSerializer
+
 
 class ServicesDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Service.objects.all()
     serializer_class = ServiceSerializer
+
 
 class TotalAttendanceView(APIView):
     def get(self, request):
@@ -78,14 +82,13 @@ class TotalAttendanceView(APIView):
         total_attendance = total_males + total_females + total_children
 
         data = {
-            'total_new_converts': total_new_converts,
-            'total_attendance': total_attendance,
-            'total_first_timers': total_first_timers,
-            
+            "total_new_converts": total_new_converts,
+            "total_attendance": total_attendance,
+            "total_first_timers": total_first_timers,
         }
         serializer = TotalAttendanceSerializer(data)
         return Response(serializer.data)
-    
+
 
 class TotalIncomeView(APIView):
     def get(self, request):
@@ -103,19 +106,33 @@ class TotalIncomeView(APIView):
             total_projects += income.projects
             total_shiloh_sacrifice += income.shiloh_sacrifice
 
-        total_income = total_offering + total_tithe + total_thanksgiving + total_projects
+        total_income = (
+            total_offering + total_tithe + total_thanksgiving + total_projects
+        )
 
         data = {
-
-            'total_income': total_income,
-            "total_offering":total_offering,
-            'total_tithe':total_tithe,
-            'total_thanksgiving':total_thanksgiving,
-            'total_projects':total_projects,
-            'total_shiloh_sacrifice':total_shiloh_sacrifice
-
-            
+            "total_income": total_income,
+            "total_offering": total_offering,
+            "total_tithe": total_tithe,
+            "total_thanksgiving": total_thanksgiving,
+            "total_projects": total_projects,
+            "total_shiloh_sacrifice": total_shiloh_sacrifice,
         }
         serializer = TotalIncomeSerializer(data)
         return Response(serializer.data)
-    
+
+
+class ServicesListView(APIView):
+    def get(self, request):
+        all_services = Service.objects.all()
+
+        all_services = [
+            (entry.id, f"{entry.service_type.name}-{entry.service_date}")
+            for entry in all_services
+        ]
+        print(all_services)
+
+        data = {"services_list": all_services}
+
+        serializer = ServicesListSerializer(data)
+        return Response(serializer.data)

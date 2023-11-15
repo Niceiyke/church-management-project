@@ -120,30 +120,28 @@ class ServiceTimeSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-
 class AttendanceSerializer(serializers.ModelSerializer):
-    services_times =serializers.SerializerMethodField()
+    services_times = serializers.SerializerMethodField()
+
     class Meta:
         model = Attendance
         fields = "__all__"
 
-    def get_services_times(self,obj):
-        time= obj.service_time.name
+    def get_services_times(self, obj):
+        time = obj.service_time.name
 
         return time
 
 
-
-
 class IncomeSerializer(serializers.ModelSerializer):
-    services_times =serializers.SerializerMethodField()
+    services_times = serializers.SerializerMethodField()
 
     class Meta:
         model = Income
         fields = "__all__"
 
-    def get_services_times(self,obj):
-        time= obj.service_time.name
+    def get_services_times(self, obj):
+        time = obj.service_time.name
 
         return time
 
@@ -153,8 +151,8 @@ class ServiceSerializer(serializers.ModelSerializer):
     service_type = ServiceTypeSerializer()
     total_attendance = serializers.SerializerMethodField()
     total_income = serializers.SerializerMethodField()
-    attendance=AttendanceSerializer(many=True)
-    income=IncomeSerializer(many=True)
+    attendance = AttendanceSerializer(many=True)
+    income = IncomeSerializer(many=True)
 
     class Meta:
         model = Service
@@ -170,10 +168,12 @@ class ServiceSerializer(serializers.ModelSerializer):
             "is_verified",
         ]
 
-    def get_service_list(self,obk):
-        qs =Service.objects.filter(is_verified=False)
+    def get_service_list(self, obk):
+        qs = Service.objects.filter(is_verified=False)
 
-        service_list =[{entry.id, f'{entry.service_type} - {entry.service_date}' }for entry in qs]
+        service_list = [
+            {entry.id, f"{entry.service_type} - {entry.service_date}"} for entry in qs
+        ]
 
         return service_list
 
@@ -239,3 +239,7 @@ class TotalIncomeSerializer(serializers.Serializer):
     total_thanksgiving = serializers.IntegerField()
     total_shiloh_sacrifice = serializers.IntegerField()
     total_projects = serializers.IntegerField()
+
+
+class ServicesListSerializer(serializers.Serializer):
+    services_list = serializers.ListField()
